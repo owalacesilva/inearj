@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\ProcessRabbitMQMessage;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
@@ -39,6 +40,11 @@ class ConsumeIneaReportFilesCommand extends Command
             $fileContent = File::get($file);
 
             Log::info('File content: {content}', ['content' => $fileContent]);
+
+            if ($fileContent) {
+                $data = ['content' => $fileContent];
+                ProcessRabbitMQMessage::dispatch($data);
+            }
         }
 
         Log::debug('Hourly task finished.');

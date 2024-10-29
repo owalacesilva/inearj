@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -9,6 +10,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class DataCollectionFactory extends Factory
 {
+    use WithoutModelEvents;
+
     /**
      * Define the model's default state.
      *

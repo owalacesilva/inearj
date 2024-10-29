@@ -6,14 +6,16 @@ use App\Http\Requests\StoreStationRequest;
 use App\Http\Requests\UpdateStationRequest;
 use App\Models\Station;
 
-class StationController extends Controller
+class StationController extends BaseController
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        return view('station.index', [
+            'stations' => Station::all(),
+        ]);
     }
 
     /**

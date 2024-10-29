@@ -1,4 +1,7 @@
-FROM debian:stable-slim
+FROM debian:stable
+
+ARG GITHUB_TOKEN
+ENV GITHUB_TOKEN $GITHUB_TOKEN 
 
 # Install dependencies
 RUN apt-get update && \
@@ -20,6 +23,9 @@ RUN apt-get install -y \
     vim \
     nginx \
     make \
+    libzip-dev \
+    zip \
+    unzip \
     php8.2 \
     php8.2-cli \
     php8.2-bz2 \
@@ -28,6 +34,7 @@ RUN apt-get install -y \
     php8.2-intl \
     php8.2-fpm \
     php8.2-pgsql \
+    php8.2-zip \
     php-xml
 
 RUN apt-get clean && \
@@ -35,6 +42,13 @@ RUN apt-get clean && \
 
 # Set working directory
 WORKDIR /var/www/html
+
+# Install nvm and Node.js
+# RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash \
+#     && . ~/.nvm/nvm.sh \
+#     && nvm install 20.11.1 \
+#     && nvm use 20.11.1 \
+#     && nvm alias default node
 
 # Copy only the necessary files to install PHP dependencies
 COPY composer.json composer.lock ./
@@ -45,22 +59,32 @@ COPY --from=composer /usr/bin/composer /usr/bin/composer
 # Copy the rest of the application
 COPY . .
 
-# COPY .deploy/nginx/nginx.conf /etc/nginx/http.d/default.conf
+# Copy custom PHP configuration
+COPY .docker/php/php.ini /etc/php/8.2/cli/php.ini
+COPY .docker/nginx/nginx.conf /etc/nginx/http.d/default.conf
 
 # Give ownership of the application to the www-data user
 RUN chown -R www-data:www-data /var/www/html
 
-# Copy custom PHP configuration
-COPY .deploy/php/php.ini /etc/php/8.2/cli/php.ini
+# Configure Git to increase the buffer size for HTTP and HTTPS post requests.
+# This is useful for handling large files or repositories with many changes.
+# The buffer size is set to 1GB (1048576000 bytes).
+RUN composer config --global github-oauth.github.com ${GITHUB_TOKEN}
+RUN ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+RUN git config --global http.postBuffer 1048576000
+RUN git config --global https.postBuffer 1048576000
+RUN git config --global --add safe.directory '*'
 
-# Generate the application key
-RUN make install
+# Install PHP dependencies
+# RUN make install
 
+# Copy the entrypoint script
 RUN chown -R www-data:www-data /var/www/html/vendor && \
     chmod -R 775 /var/www/html/vendor
 
 # Expose port 8080
 EXPOSE 8080
-
-# Create command to run nginx
 CMD ["nginx", "-g", "daemon off;"]
+
+# Define the entrypoint
+ENTRYPOINT [ ".docker/docker-entrypoint.sh" ]

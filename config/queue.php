@@ -74,15 +74,20 @@ return [
 
         'rabbitmq' => [
             'driver' => 'rabbitmq',
+            'host' => env('RABBITMQ_HOST', '127.0.0.1'),
+            'port' => env('RABBITMQ_PORT', 5672),
+            'user' => env('RABBITMQ_USER', 'guest'),
+            'password' => env('RABBITMQ_PASS', 'guest'),
+            'vhost' => env('RABBITMQ_VHOST', '/'),
             'queue' => env('RABBITMQ_QUEUE', 'default'),
-            'connection' => PhpAmqpLib\Connection\AMQPLazyConnection::class,
+            // 'connection' => PhpAmqpLib\Connection\AMQPStreamConnection::class,
 
             'hosts' => [
                 [
                     'host' => env('RABBITMQ_HOST', '127.0.0.1'),
                     'port' => env('RABBITMQ_PORT', 5672),
                     'user' => env('RABBITMQ_USER', 'guest'),
-                    'password' => env('RABBITMQ_PASSWORD', 'guest'),
+                    'password' => env('RABBITMQ_PASS', 'guest'),
                     'vhost' => env('RABBITMQ_VHOST', '/'),
                 ],
             ],
@@ -94,6 +99,21 @@ return [
                     'local_key' => env('RABBITMQ_SSL_LOCALKEY', null),
                     'verify_peer' => env('RABBITMQ_SSL_VERIFY_PEER', true),
                     'passphrase' => env('RABBITMQ_SSL_PASSPHRASE', null),
+                ],
+                'queue' => [
+                    'prioritize_delayed' =>  false,
+                    'queue_max_priority' => 10,
+                    'exchange' => 'application-x',
+                    'exchange_type' => 'topic',
+                    'exchange_routing_key' => '',
+                    'reroute_failed' => true,
+                    'failed_exchange' => 'failed-exchange',
+                    'failed_routing_key' => 'application-x.%s',
+                ],
+                'exchange' => [
+                    'name' => env('RABBITMQ_EXCHANGE_NAME', 'default'),
+                    'type' => env('RABBITMQ_EXCHANGE_TYPE', 'direct'),
+                    'declare' => env('RABBITMQ_EXCHANGE_DECLARE', true),
                 ],
             ],
 

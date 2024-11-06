@@ -15,4 +15,5 @@ Artisan::command('inspire', function () {
  * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
  * @return void
  */
+// Schedule::command(ConsumeIneaReportFilesCommand::class)->everyFifteenMinutes();
 Schedule::command(ConsumeIneaReportFilesCommand::class)->everyMinute();

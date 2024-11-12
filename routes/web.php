@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\Api\StationApiController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StationController;
+use App\Http\Controllers\StationDetailsController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -14,12 +17,24 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 Route::get('/inventory', [StationController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('inventory');
+
+Route::get('/stations/{id}', [StationDetailsController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('station_details');
+
+Route::get('/data-collections', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('data-collections');
+
+Route::get('/api/stations', [StationApiController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('api/stations');
 
 require __DIR__.'/auth.php';

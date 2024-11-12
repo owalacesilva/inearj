@@ -1,54 +1,35 @@
-FROM debian:stable
+FROM php:8.2.25-alpine
 
 ARG GITHUB_TOKEN
 ENV GITHUB_TOKEN $GITHUB_TOKEN 
 
-# Install dependencies
-RUN apt-get update && \
-    apt-get install -y \
-        apt-transport-https \
-        lsb-release \
-        software-properties-common \
-        ca-certificates \
-        wget
-
-# Add the PHP repository and update the package list
-# RUN add-apt-repository ppa:ondrej/php && \
-#     apt-get update
-
-# Install PHP and other dependencies
-RUN apt-get install -y \
+# Install system dependencies
+RUN apk update && \
+    apk add --no-cache \
+    gcc \
+    g++ \
+    wget \
     git \
     curl \
     vim \
     nginx \
     make \
-    libzip-dev \
     zip \
     unzip \
-    php8.2 \
-    php8.2-cli \
-    php8.2-bz2 \
-    php8.2-curl \
-    php8.2-mbstring \
-    php8.2-intl \
-    php8.2-fpm \
-    php8.2-pgsql \
-    php8.2-zip \
-    php-xml
+    oniguruma-dev
 
-RUN apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+# Download and install the PHP extension installer
+RUN curl -sSLf \
+    -o /usr/local/bin/install-php-extensions \
+    https://github.com/mlocati/docker-php-extension-installer/releases/download/2.6.1/install-php-extensions && \
+    chmod +x /usr/local/bin/install-php-extensions
+
+# Install PHP extensions
+RUN install-php-extensions ftp xdebug
+RUN docker-php-ext-install pdo pdo_mysql mysqli mbstring intl
 
 # Set working directory
 WORKDIR /var/www/html
-
-# Install nvm and Node.js
-# RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash \
-#     && . ~/.nvm/nvm.sh \
-#     && nvm install 20.11.1 \
-#     && nvm use 20.11.1 \
-#     && nvm alias default node
 
 # Copy only the necessary files to install PHP dependencies
 COPY composer.json composer.lock ./
@@ -70,7 +51,7 @@ RUN chown -R www-data:www-data /var/www/html
 # This is useful for handling large files or repositories with many changes.
 # The buffer size is set to 1GB (1048576000 bytes).
 RUN composer config --global github-oauth.github.com ${GITHUB_TOKEN}
-RUN ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+# RUN ssh-keyscan -H github.com >> ~/.ssh/known_hosts
 RUN git config --global http.postBuffer 1048576000
 RUN git config --global https.postBuffer 1048576000
 RUN git config --global --add safe.directory '*'
@@ -87,4 +68,4 @@ EXPOSE 8080
 CMD ["nginx", "-g", "daemon off;"]
 
 # Define the entrypoint
-ENTRYPOINT [ ".docker/docker-entrypoint.sh" ]
+# ENTRYPOINT [ ".docker/docker-entrypoint.sh" ]

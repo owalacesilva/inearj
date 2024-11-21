@@ -17,46 +17,46 @@ return new class extends Migration
             $table->string('code');
             $table->string('title');
             $table->string('kind_of');
-            $table->string('anaplu_code'); // CÓDIGO ANA PLU
-            $table->string('rain_gauge_offset'); // PLUVIOMETRO OFFSET
-            $table->string('rain_gauge_slope'); // PLUVIOMETRO SLOPE
-            $table->string('streamflow_offset'); // FLUVIOMETRIA OFFSET
-            $table->string('streamflow_slope'); // FLUVIOMETRIA SLOPE
-            $table->string('solar_radiation_offset'); // RADIAÇÃO SOLAR OFFSET
-            $table->string('solar_radiation_slope'); // RADIAÇÃO SOLAR SLOPE
-            $table->string('air_temperature_offset'); // TEMPERATURA DO AR OFFSET
-            $table->string('air_temperature_slope'); // TEMPERATURA DO AR SLOPE
-            $table->string('relative_humidity_offset'); // UMIDADE RELATIVA DO AR OFFSET
-            $table->string('relative_humidity_slope'); // UMIDADE RELATIVA DO AR SLOPE
-            $table->string('wind_direction_offset'); // DIREÇÃO DO VENTO OFFSET
-            $table->string('wind_direction_slope'); // DIREÇÃO DO VENTO SLOPE
-            $table->string('wind_speed_offset'); // INTENSIDADE DIREÇÃO DO VENTO OFFSET
-            $table->string('wind_speed_slope'); // INTENSIDADE DIREÇÃO DO VENTO SLOPE
-            $table->string('atmospheric_pressure_offset'); // PRESSÃO ATMOSFÉRICA OFFSET
-            $table->string('atmospheric_pressure_slope'); // PRESSÃO ATMOSFÉRICA SLOPE
-            $table->string('number_of_readings'); // NÚMERO DE LANCES
-            $table->string('scale'); // ESCALA
-            $table->string('anaflu_code'); // CÓDIGO ANA FLU
-            $table->string('monitored_river'); // RIO MONITORADO
-            $table->string('drainage_area'); // AREA DE DRENAGEM
-            $table->string('maximum_alert_percentage'); // % PARA ALERTA MÁXIMO
-            $table->string('overflow_level'); // COTA DE TRANSBORDO
-            $table->string('hydrographic_region'); // REGIÃO HIDROGRÁFICA
-            $table->string('transmission'); // TRANSMISSÃO
-            $table->string('transmission_operator'); // OPERADORA TRANSMISSÃO
-            $table->string('number'); // NÚMERO
-            $table->string('modem'); // MODEM
-            $table->string('datalogger'); // DATALOGGER
-            $table->string('latitude'); // LATITUDE
-            $table->string('longitude'); // LONGITUDE
-            $table->string('altitude'); // ALTITUDE
-            $table->string('municipality'); // MUNICÍPIO
-            $table->string('state'); // ESTADO
-            $table->string('operator'); // OPERADORA
-            $table->string('purpose'); // FINALIDADE
-            $table->string('installation_date'); // DATA DE IMPLANTAÇÃO
-            $table->string('status'); // SITUAÇÃO
-            $table->string('asset'); // PATRIMÔNIO
+            $table->string('status')->nullable(); // SITUAÇÃO
+            $table->string('anaplu_code')->nullable(); // CÓDIGO ANA PLU
+            $table->string('rain_gauge_offset')->nullable(); // PLUVIOMETRO OFFSET
+            $table->string('rain_gauge_slope')->nullable(); // PLUVIOMETRO SLOPE
+            $table->string('streamflow_offset')->nullable(); // FLUVIOMETRIA OFFSET
+            $table->string('streamflow_slope')->nullable(); // FLUVIOMETRIA SLOPE
+            $table->string('solar_radiation_offset')->nullable(); // RADIAÇÃO SOLAR OFFSET
+            $table->string('solar_radiation_slope')->nullable(); // RADIAÇÃO SOLAR SLOPE
+            $table->string('air_temperature_offset')->nullable(); // TEMPERATURA DO AR OFFSET
+            $table->string('air_temperature_slope')->nullable(); // TEMPERATURA DO AR SLOPE
+            $table->string('relative_humidity_offset')->nullable(); // UMIDADE RELATIVA DO AR OFFSET
+            $table->string('relative_humidity_slope')->nullable(); // UMIDADE RELATIVA DO AR SLOPE
+            $table->string('wind_direction_offset')->nullable(); // DIREÇÃO DO VENTO OFFSET
+            $table->string('wind_direction_slope')->nullable(); // DIREÇÃO DO VENTO SLOPE
+            $table->string('wind_speed_offset')->nullable(); // INTENSIDADE DIREÇÃO DO VENTO OFFSET
+            $table->string('wind_speed_slope')->nullable(); // INTENSIDADE DIREÇÃO DO VENTO SLOPE
+            $table->string('atmospheric_pressure_offset')->nullable(); // PRESSÃO ATMOSFÉRICA OFFSET
+            $table->string('atmospheric_pressure_slope')->nullable(); // PRESSÃO ATMOSFÉRICA SLOPE
+            $table->string('number_of_readings')->nullable(); // NÚMERO DE LANCES
+            $table->string('scale')->nullable(); // ESCALA
+            $table->string('anaflu_code')->nullable(); // CÓDIGO ANA FLU
+            $table->string('monitored_river')->nullable(); // RIO MONITORADO
+            $table->string('drainage_area')->nullable(); // AREA DE DRENAGEM
+            $table->string('maximum_alert_percentage')->nullable(); // % PARA ALERTA MÁXIMO
+            $table->string('overflow_level')->nullable(); // COTA DE TRANSBORDO
+            $table->string('hydrographic_region')->nullable(); // REGIÃO HIDROGRÁFICA
+            $table->string('transmission')->nullable(); // TRANSMISSÃO
+            $table->string('transmission_operator')->nullable(); // OPERADORA TRANSMISSÃO
+            $table->string('number')->nullable(); // NÚMERO
+            $table->string('modem')->nullable(); // MODEM
+            $table->string('datalogger')->nullable(); // DATALOGGER
+            $table->string('latitude')->nullable(); // LATITUDE
+            $table->string('longitude')->nullable(); // LONGITUDE
+            $table->string('altitude')->nullable(); // ALTITUDE
+            $table->string('municipality')->nullable(); // MUNICÍPIO
+            $table->string('state')->nullable(); // ESTADO
+            $table->string('operator')->nullable(); // OPERADORA
+            $table->string('purpose')->nullable(); // FINALIDADE
+            $table->string('installation_date')->nullable(); // DATA DE IMPLANTAÇÃO
+            $table->string('asset')->nullable(); // PATRIMÔNIO
         });
     }
 

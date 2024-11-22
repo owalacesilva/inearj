@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\StationApiController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DataCollectionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StationController;
 use App\Http\Controllers\StationDetailsController;
@@ -25,11 +26,11 @@ Route::get('/inventory', [StationController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('inventory');
 
-Route::get('/stations/{id}', [StationDetailsController::class, 'index'])
+Route::get('/stations/{code}', [StationDetailsController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('station_details');
 
-Route::get('/data-collections', [DashboardController::class, 'index'])
+Route::get('/data-collections', [DataCollectionController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('data-collections');
 

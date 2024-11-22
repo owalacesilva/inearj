@@ -101,7 +101,7 @@
                                 </li>
                             </ul>
                             <div class="mt-4 flex space-x-2">
-                                <a href="{{ route('station_details', ['id' => $station['code']]) }}" class="items-center px-3 py-2 text-sm font-medium text-center text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:text-gray-300 dark:bg-gray-800 dark:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700">
+                                <a href="{{ route('station_details', ['code' => $station['code']]) }}" class="items-center px-3 py-2 text-sm font-medium text-center text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:text-gray-300 dark:bg-gray-800 dark:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700">
                                     Detalhes
                                 </a>
                             </div>

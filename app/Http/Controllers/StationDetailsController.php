@@ -10,10 +10,10 @@ class StationDetailsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request, string $id)
+    public function index(Request $request, string $code)
     {
         return view('station.details', [
-            'station' => Station::find($id),
+            'station' => Station::firstWhere('code', $code),
         ]);
     }
 

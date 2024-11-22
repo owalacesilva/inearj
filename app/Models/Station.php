@@ -6,6 +6,7 @@ use App\Interfaces\Entities\StationDomain;
 use App\Interfaces\Entities\StationEntity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Station extends Model
 {
@@ -17,6 +18,14 @@ class Station extends Model
      * @var string
      */
     protected $primaryKey = 'id';
+
+    /**
+     * The attributes that are mass assignable.
+     */
+    public function dataCollections(): HasMany
+    {
+        return $this->hasMany(DataCollection::class);
+    }
 
 
     /**

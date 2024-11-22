@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Interfaces\Entities\StationEntity;
 use App\Interfaces\Entities\DataCollectionEntity;
 use App\Repositories\ReportRepository;
-use App\Repositories\StationRepository;
+use App\Repositories\EloquentStationRepository;
 use Carbon\Carbon;
 use Carbon\Exceptions\InvalidFormatException;
 use Illuminate\Database\RecordNotFoundException;
@@ -46,7 +46,7 @@ class ReportService
                 throw new ParseError('Invalid amount format');
             }
 
-            $stationsRepository = new StationRepository();
+            $stationsRepository = new EloquentStationRepository();
             $station = $stationsRepository->getStationByCode($stationCode);
             Log::debug('Station found: ' . $station);
 

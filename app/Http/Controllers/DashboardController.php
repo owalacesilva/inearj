@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Station;
+use App\Repositories\EloquentStationRepository;
+use App\Services\DataCollectionService;
 use Illuminate\Http\Request;
 
 class DashboardController extends BaseController
@@ -12,8 +14,12 @@ class DashboardController extends BaseController
      */
     public function index()
     {
+        $stationRepository = new EloquentStationRepository();
+        $service = new DataCollectionService($stationRepository);
+
         return view('dashboard.index', [
             'stations' => Station::all(),
+            'dataCollections' => $service->listDataCollection(),
         ]);
     }
 

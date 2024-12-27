@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Exception;
 use App\Jobs\ProcessRabbitMQMessage;
 use App\Services\ReportService;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
@@ -49,13 +50,23 @@ class ConsumeIneaReportFilesCommand extends Command
         $fileSystem = Storage::disk('ftp');
         $files = $fileSystem->files($folderPath);
 
-        foreach ($files as $file) {
-            if (!$fileSystem->getVisibility($file) === 'public') {
+        $todayDate = Carbon::now()->format('ymd');
+
+        // /(\d{1,})_(241227)(\d{3,4})\.(txt)/gsm
+        $pattern = '/(\d{1,})_(' . $todayDate . ')(\d{3,4})\.(txt)/';
+        $matchedFiles = array_filter($files, function($file) use ($pattern) {
+            return preg_match($pattern, $file);
+        });
+
+        Log::info('Matched Files: {files}', ['files' => $matchedFiles]);
+
+        foreach ($matchedFiles as $key => $filePath) {
+            if (!$fileSystem->getVisibility($filePath) === 'public') {
                 continue;
             }
 
             try {
-                $fileContent = $fileSystem->get($file);
+                $fileContent = $fileSystem->get($filePath);
     
                 Log::info('File content: {content}', ['content' => $fileContent]);
     
@@ -65,7 +76,7 @@ class ConsumeIneaReportFilesCommand extends Command
                     // ProcessRabbitMQMessage::dispatch($data);
                 }
             } catch(Exception $exception) {
-                Log::error('Error processing file: {file}', ['file' => $file, 'exception' => $exception->getMessage()]);
+                Log::error('Error processing file: {file}', ['file' => $filePath, 'exception' => $exception->getMessage()]);
             }
         }
     }

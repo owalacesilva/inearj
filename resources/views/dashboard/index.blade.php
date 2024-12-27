@@ -5,7 +5,7 @@
             {{ __('Painel de estações') }}
         </h2>
     </x-slot>
-    <div class="pt-6 pb-6">
+    <div class="pt-6 pb-6" style="display: none;">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-4">
                 <div class="col-span-1 md:col-span-1">
@@ -98,7 +98,7 @@
                                 </li>
                                 <li class="p-2 border-t border-gray-200 dark:border-gray-600">
                                     <strong class="text-gray-700 dark:text-gray-300 text-green-500">Nivel</strong></br>
-                                    <span class="text-gray-700 dark:text-gray-300 text-green-500">{{ $station['level'] ?? '0' }} lm</span>
+                                    <span class="text-gray-700 dark:text-gray-300 text-green-500">{{ $station['level'] ?? '0' }}</span>
                                 </li>
                             </ul>
                             <div class="mt-4 flex space-x-2">

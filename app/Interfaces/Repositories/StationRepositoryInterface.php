@@ -22,7 +22,7 @@ interface StationRepositoryInterface
     /**
      * Get all stations by their last data collection.
      *
-     * @return Station[] The stations
+     * @return array The stations
      */
     public function getStationsByLastDataCollection(DateTime $dateTime): array;
 }

@@ -1,3 +1,4 @@
+<meta http-equiv="refresh" content="300">
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
@@ -93,11 +94,11 @@
                             <ul class="mt-4">
                                 <li class="p-2 border-t border-gray-200 dark:border-gray-600">
                                     <strong class="text-gray-700 dark:text-gray-300">Última coleta</strong>
-                                    <div class="text-gray-700 dark:text-gray-300">{{ $station['collected_at'] }}</div>
+                                    <div class="text-gray-700 dark:text-gray-300">{{ $station['collected_at'] ?? '---' }}</div>
                                 </li>
                                 <li class="p-2 border-t border-gray-200 dark:border-gray-600">
                                     <strong class="text-gray-700 dark:text-gray-300 text-green-500">Nivel</strong></br>
-                                    <span class="text-gray-700 dark:text-gray-300 text-green-500">{{ $station['level'] }}</span>
+                                    <span class="text-gray-700 dark:text-gray-300 text-green-500">{{ $station['level'] ?? '0' }} lm</span>
                                 </li>
                             </ul>
                             <div class="mt-4 flex space-x-2">

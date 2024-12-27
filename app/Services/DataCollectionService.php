@@ -35,9 +35,20 @@ class DataCollectionService
 
         // Format the collected at date
         return array_map(function ($dataCollection) {
-            $dataCollection['collected_at'] = $this->getFormattedCollectedAt($dataCollection['collected_at']);
-            $dataCollection['level'] = $this->getFormattedLevel($dataCollection['level']);
-            $dataCollection['status'] = $this->getStatusByCollectedAt($dataCollection['collected_at']);
+            $dataCollection['status'] = 'alert';
+
+            if (!is_null($dataCollection['data_id'])) {
+                // Calculate the status
+                $dataCollection['status'] = $this->getStatusByCollectedAt($dataCollection['collected_at']);
+
+                // Calculate the multiples of 5 minutes
+                $dataCollection['level'] = $this->calculateAdjustedLevel($dataCollection);
+                $dataCollection['rain'] = $this->calculateAdjustedRain($dataCollection);
+    
+                // Format the collected at date
+                $dataCollection['collected_at'] = $this->getFormattedCollectedAt($dataCollection['collected_at']);
+                $dataCollection['level'] = $this->getFormattedLevel($dataCollection['level']);
+            }
 
             return $dataCollection;
         }, $dataCollections);
@@ -75,7 +86,7 @@ class DataCollectionService
         }
 
         // Format the level as a string with two decimal places
-        return number_format((float)$level, 2) . ' Level';
+        return number_format((float)$level, 2);
     }
 
     private function getStatusByCollectedAt(string $collectedAt): string
@@ -93,5 +104,41 @@ class DataCollectionService
         } catch (\Exception $e) {
             return 'alert';
         }
+    }
+
+    /**
+     * Calculate the adjusted level based on the data collection.
+     *
+     * @param array $dataCollection The data collection
+     * @return float The calculated level
+     */
+    private function calculateAdjustedLevel(array $dataCollection): float
+    {
+        $level = $dataCollection['level'];
+        $streamflowSlope = $dataCollection['streamflow_slope'];
+
+        if (is_numeric($level) && is_numeric($streamflowSlope)) {
+            return (float)$level * (float)$streamflowSlope;
+        }
+
+        return 0.0;
+    }
+
+    /**
+     * Calculate the adjusted rain based on the data collection.
+     *
+     * @param array $dataCollection The data collection
+     * @return float The calculated rain
+     */
+    private function calculateAdjustedRain(array $dataCollection): float
+    {
+        $rain = $dataCollection['rain'];
+        $rainGaugeSlope = $dataCollection['rain_gauge_slope'];
+
+        if (is_numeric($rain) && is_numeric($rainGaugeSlope)) {
+            return (float)$rain * (float)$rainGaugeSlope;
+        }
+
+        return 0.0;
     }
 }
